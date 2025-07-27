@@ -16,5 +16,7 @@ public record AppProperties(
 
 		@Min(value = 1, message = "O número mínimo de usuários deve ser maior que zero") int maxUsers,
 
-		@NotEmpty(message = "A lista de funcionalidades não pode estar vazia") List<String> features) {
+		@NotEmpty(message = "A lista de funcionalidades não pode estar vazia") List<String> features,
+
+		@NotEmpty(message = "O valor secreto não pode ser vazio") String secretValue) {
 }
