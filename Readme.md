@@ -48,6 +48,34 @@ http://localhost:8888/cloudconfigpropserver/config/cloudconfigpropclient/develop
 
 🧠 Deve retornar os valores do properties que adiciononou na pasta
 
+🔑 Antes de executar o Client, defina a variável de ambiente KEYSTORE_SECRET com a senha do certificado (pfx) da pasta /certs. O Client usa esse certificado para descriptografar os valores com o prefixo {cipher}.
+
+A senha não fica no application.properties, que só lê a variável de ambiente:
+
+```properties
+encrypt.keyStore.password=${KEYSTORE_SECRET}
+encrypt.keyStore.secret=${KEYSTORE_SECRET}
+```
+
+Sem a variável, a aplicação não sobe. Isso é proposital: é melhor falhar no início do que subir com uma senha padrão esquecida no código. Nesse caso o erro aparece como "Cannot load keys from store ... keystore password was incorrect", porque o texto ${KEYSTORE_SECRET} acaba sendo usado como senha.
+
+⚠️ O certificado de development deste repositório é só para demonstração, e a senha dele é 57KCb1TvKq3zJ5P. Ela está aqui apenas para o exemplo rodar sem passos extras. Em um projeto real, a senha fica somente no cofre de segredos do ambiente (variável de ambiente, Secret do Kubernetes/OpenShift, Vault etc.), nunca no Git.
+
+PowerShell:
+
+```powershell
+$env:KEYSTORE_SECRET="57KCb1TvKq3zJ5P"
+mvn spring-boot:run
+```
+
+Bash:
+
+```bash
+KEYSTORE_SECRET=57KCb1TvKq3zJ5P mvn spring-boot:run
+```
+
+Na IDE, adicione KEYSTORE_SECRET nas variáveis de ambiente da configuração de execução.
+
 ⚙️ Execute o exemplo (projeto Exemplo-Cloud-Config-Client) do Cloud Config Client localmente, e faça o teste no browser (ou Postman):
 
 http://localhost:8080/api/config
