@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Arquivos de senhas ###
+# O zip gerado pelo POST /certificate do Config Server traz o passwords.txt junto com os pfx.
+# Ignorar *.txt evita que ele seja commitado por acidente ao copiar os pfx para src/main/resources/certs
+# (as senhas ficam somente na variavel de ambiente KEYSTORE_SECRET).
+*.txt
